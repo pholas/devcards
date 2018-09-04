@@ -3,7 +3,7 @@
    [sablono.core :as sab]
    [devcards.util.utils :as utils]))
 
-(defonce ^:dynamic *key-counter* nil)
+(defonce ^:dynamic *key-counter* (atom 0))
 
 (defn get-key []
   (swap! *key-counter* inc)
@@ -84,6 +84,5 @@
    :else        (literal "literal" x)))
 
 (defn html-edn [e]
-  (binding [*key-counter* (atom 0)]
-    (sab/html [:div.com-rigsomelight-rendered-edn.com-rigsomelight-devcards-typog
-               {:key "devcards-edn-block"} (html e)])))
+  (sab/html [:div.com-rigsomelight-rendered-edn.com-rigsomelight-devcards-typog
+             {:key (get-key)} (html e)]))
